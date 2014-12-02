@@ -12,9 +12,6 @@ stroke: #fff;
 opacity: 0.6;
 stroke-width: 1.5px;
 }
-.node:not(:hover) .nodetext {
-display: none;
-}
 text {
 font: 7px serif;
 opacity: 0.6;
@@ -75,6 +72,8 @@ var node = vis.selectAll(".node")
 .style("opacity", 0.6)
 .on("mouseover", mouseover)
 .on("mouseout", mouseout)
+.on("click", click)
+.on("dblclick", dblclick)
 .call(force.drag);
 
 node.append("circle")
@@ -112,6 +111,36 @@ function mouseout() {
 d3.select(this).select("circle").transition()
 .duration(750)
 .attr("r", 8);
+}
+// action to take on mouse click
+function click() {
+d3.select(this).select("text").transition()
+.duration(750)
+.attr("x", 22)
+.style("stroke-width", ".5px")
+.style("opacity", 1)
+.style("fill", "#E34A33")
+.style("font", "17.5px serif");
+d3.select(this).select("circle").transition()
+.duration(750)
+.style("fill", "#E34A33")
+.attr("r", 16)
+}
+
+// action to take on mouse double click
+function dblclick() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 6)
+.style("fill", "#E34A33");
+d3.select(this).select("text").transition()
+.duration(750)
+.attr("x", 12)
+.style("stroke", "none")
+.style("fill", "#E34A33")
+.style("stroke", "none")
+.style("opacity", 0.6)
+.style("font", "7px serif");
 }
 
 </script>
