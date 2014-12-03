@@ -44,8 +44,20 @@ var svg = d3.select("body").append("svg")
 .attr("pointer-events", "all")
 .call(d3.behavior.zoom().on("zoom", redraw));
 
+
 var vis = svg
 .append("svg:g");
+
+// build the arrow.
+svg.append("defs").append("marker")
+.attr("id", "arrowhead")
+.attr("refX", 6 + 3) /*must be smarter way to calculate shift*/
+.attr("refY", 2)
+.attr("markerWidth", 6)
+.attr("markerHeight", 4)
+.attr("orient", "auto")
+.append("path")
+.attr("d", "M 0,0 V 4 L6,2 Z"); //this is actual shape for arrowhead
 
 vis.append("svg:rect")
 .attr("width", width)
@@ -62,7 +74,8 @@ var link = vis.selectAll(".link")
 .data(force.links())
 .enter().append("line")
 .attr("class", "link")
-.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+.attr("marker-end", "url(#arrowhead)"); // add to have arrows
 
 var node = vis.selectAll(".node")
 .data(force.nodes())
